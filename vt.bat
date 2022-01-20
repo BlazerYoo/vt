@@ -1,1 +1,2 @@
-javac -cp ".;.\lib\introcs.jar;.\lib\stdlib.jar;.\lib\jansi-2.1.0.jar;.\lib\selenium-server-4.1.0.jar" StdOut.java && javac -cp ".;.\lib\introcs.jar;.\lib\stdlib.jar;.\lib\jansi-2.1.0.jar;.\lib\selenium-server-4.1.0.jar" ScanResult.java && javac -cp ".;.\lib\introcs.jar;.\lib\stdlib.jar;.\lib\jansi-2.1.0.jar;.\lib\selenium-server-4.1.0.jar" VT.java && java -cp ".;.\lib\introcs.jar;.\lib\stdlib.jar;.\lib\jansi-2.1.0.jar;.\lib\selenium-server-4.1.0.jar" VT %*
+set lib=".;.\lib\introcs.jar;.\lib\stdlib.jar;.\lib\jansi-2.1.0.jar;.\lib\selenium-server-4.1.1.jar"
+javac -cp %lib% StdOut.java && javac -cp %lib% ScanResult.java && javac -cp %lib% VT.java && java -cp %lib% VT %*
