@@ -1,5 +1,5 @@
 # vt
- Java implementation of VirusTotal command line interface
+ Java implementation of [VirusTotal](https://www.virustotal.com/gui/home/upload) command line interface
 
 
 ## Installation
