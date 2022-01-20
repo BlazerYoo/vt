@@ -2,6 +2,9 @@
  Java implementation of [VirusTotal](https://www.virustotal.com/gui/home/upload) command line interface
 
 
+![image](https://user-images.githubusercontent.com/69565038/150281347-9857c224-c97a-4360-b839-25395e5ff948.png)
+
+
 ## Installation
 
 ### Chrome
@@ -36,8 +39,6 @@ Open `VT.java` and replace `.\\chromedriver_win32\\chromedriver.exe` on line `35
 
 Inside the cloned repo, run `./vt -h` for the help menu.
 
-### Help menu
-![image](https://user-images.githubusercontent.com/69565038/150281347-9857c224-c97a-4360-b839-25395e5ff948.png)
 
 ### License
 
