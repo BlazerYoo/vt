@@ -82,7 +82,6 @@ public class ScanResult {
         String engine = "";
 
         // Truncate engine name
-        // https://docs.oracle.com/javase/7/docs/api/java/lang/String.html
         try {
             engine = scanResult.getEngine().substring(0, MAX_ENGINE_LEN);
         }
@@ -136,8 +135,6 @@ public class ScanResult {
             // Print color coded
             colorPrintEngine(scanResult);
 
-            // https://introcs.cs.princeton.edu/java/15inout/
-            // https://docs.oracle.com/javase/8/docs/api/java/util/Formatter.html
             StdOut.printf("%-11.10s", scanResult.getResult());
 
             // If time to print to next line or if user selected engine was found or

@@ -1,0 +1,2 @@
+lib=".;.\lib\introcs.jar;.\lib\stdlib.jar;.\lib\jansi-2.1.0.jar;.\lib\selenium-server-4.1.0.jar"
+javac -cp $lib StdOut.java && javac -cp $lib ScanResult.java && javac -cp $lib VT.java && java -cp $lib VT $@

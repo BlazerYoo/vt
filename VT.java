@@ -75,8 +75,6 @@ public class VT {
 
         // Clear terminal + print or don't clear terminal + print
         if (erase)
-
-            // http://fusesource.github.io/jansi/
             StdOut.print(ansi().eraseScreen().bg(highlight).fg(text).a(str)
                                .reset());
         else
@@ -88,11 +86,6 @@ public class VT {
     public static void printLogo(Ansi.Color text) {
 
         // VirusTotal ascii art logo
-        // https://www.virustotal.com/gui/home/upload
-        // https://cloudconvert.com/svg-to-jpg
-        // https://pypi.org/project/ascii-art-cli/
-        //      Python library for image -> ascii art
-        //      cmd: ascii-art "logo - Copy.jpg" --width 90 --height 9 --chars @.
         String logo =
                 "\n.@@@@@@@@@@@@@@@@......................................"
                         + "...................................\n"
@@ -152,8 +145,6 @@ public class VT {
                 StdOut.println();
 
                 // End program
-                // https://stackoverflow.com/questions/2434592/difference-in-syst
-                // em-exit0-system-exit-1-system-exit1-in-java
                 System.exit(0);
             }
         }
@@ -205,13 +196,9 @@ public class VT {
     private static String fileExists(String filePath) {
 
         // Absolute path of 'filePath'
-        // https://docs.oracle.com/javase/8/docs/api/java/nio/file/Path.html
-        // https://docs.oracle.com/javase/tutorial/essential/io/pathOps.html
-        // https://docs.oracle.com/javase/7/docs/api/java/nio/file/Paths.html
         Path absFilePath = Paths.get(filePath).toAbsolutePath();
 
         // Is the file valid, existing, accessible file
-        // https://docs.oracle.com/javase/tutorial/essential/io/check.html
         boolean realFile = Files.isRegularFile(absFilePath)
                 && Files.isReadable(absFilePath)
                 && Files.isExecutable(absFilePath) && Files.exists(absFilePath);
@@ -243,11 +230,6 @@ public class VT {
         WebElement element = null;
 
         // JavaScript 'script' returns something
-        // https://www.selenium.dev/selenium/docs/api/java/org/openqa/selenium/J
-        // avascriptExecutor.html
-        // https://www.browserstack.com/guide/javascriptexecutor-in-selenium
-        // https://www.lambdatest.com/blog/how-to-use-javascriptexecutor-in-sele
-        // nium-webdriver/
         try {
             JavascriptExecutor js = (JavascriptExecutor) driver;
             element = (WebElement) js.executeScript(script);
@@ -256,8 +238,6 @@ public class VT {
 
             // If you want to return the HTML element, but JavaScript 'script'
             // doesn't return anything
-            // https://www.oracle.com/technical-resources/articles/java/java8-op
-            // tional.html
             if (element == null && !noReturn) {
 
                 // Color print error message
@@ -294,8 +274,6 @@ public class VT {
             }
 
             // Execute 'script' again
-            // https://stackoverflow.com/questions/40392594/java-try-and-catch-u
-            // ntil-no-exception-is-thrown
             catch (JavascriptException e) {
                 continue;
             }
@@ -355,46 +333,6 @@ public class VT {
     // Runs everything
     public static void main(String[] args) {
 
-        //--------------------------------------------------------------
-        // TESTING: runs if '--test' or '-t' flag is present
-        // 2 methods to test: cmdLineArg and fileExists
-        // Iterate through command line arguments
-        for (int i = 0; i < args.length; i++) {
-            if (args[i].equals("--test")) {
-                // cmdLineArg test 1:
-                String[] args0 = new String[] { "a", "-b", "follows b" };
-                String afterB = cmdLineArg(args0, "--b", "-b");
-                assert afterB.equals("follows b");
-
-                // cmdLineArg test 2:
-                String[] args1 = new String[] { "vt", "--file", "file", "-e", "engine" };
-                String file0 = cmdLineArg(args1, "--file", "-f");
-                assert file0.equals("file");
-                String engineName = cmdLineArg(args1, "--engine", "-e");
-                assert engineName.equals("engine");
-
-                // cmdLineArg test 3:
-                StdOut.println("\nThe following output is from a test case:");
-                String[] args2 = new String[] { "vt", "--file" };
-                String file1 = cmdLineArg(args2, "--file", "-f");
-                assert file1 == null;
-
-            }
-
-            if (args[i].equals("-t")) {
-
-                // fileExists test 1:
-                // https://www.delftstack.com/howto/java/java-get-type-of-object/
-                StdOut.println(fileExists("ScanResult.java").getClass() ==
-                                       String.class);
-
-                // filesExists test 2:
-                StdOut.println("\nThe following output is from a test case:");
-                StdOut.println(fileExists("asdfasdf").equals("sdf"));
-            }
-        }
-        //--------------------------------------------------------------
-
         // Color print logo
         printLogo(BLUE);
 
@@ -419,10 +357,6 @@ public class VT {
                                ".\\chromedriver_win32\\chromedriver.exe");
 
             // Browsing options
-            // https://stackoverflow.com/questions/52975287/selenium-chromedrive
-            // r-disable-logging-or-redirect-it-java
-            // https://www.selenium.dev/selenium/docs/api/java/org/openqa/seleni
-            // um/chrome/ChromeOptions.html
             ChromeOptions options = new ChromeOptions();
             options.setHeadless(true);
             //      Logging suppression
@@ -440,13 +374,6 @@ public class VT {
 
             // Find 'Choose file' button
             //      Long messy JavaScript code to find the button
-            // https://stackoverflow.com/questions/62799036/unable-to-locate-the
-            // -sign-in-element-within-shadow-root-open-using-selenium-a/6280367
-            // 1#62803671
-            // https://stackoverflow.com/questions/59345959/how-to-pass-the-valu
-            // e-in-search-on-url-https-www-virustotal-com-gui-home-searc
-            // https://developer.mozilla.org/en-US/docs/Web/API/Document/querySe
-            // lector
             String script = "return document.querySelector('vt-ui-shell"
                     + " div#view-container home-view')"
                     + ".shadowRoot.querySelector('div.wrapper"
@@ -457,7 +384,6 @@ public class VT {
             WebElement fileUpload = findElement(driver, script, false);
 
             // Upload file
-            // https://www.guru99.com/upload-download-file-selenium-webdriver.html
             fileUpload.sendKeys(absFilePath);
 
             // Check if the file has been uploaded to VirusTotal before
@@ -486,10 +412,6 @@ public class VT {
             if (foundString(driver, scanCompleteScript)) {
                 //  Long messy JavaScript code to find + form Array of
                 //  each individual engine scan HTML element
-                // https://www.geeksforgeeks.org/jquery-queryselector-vs-queryse
-                // lectorall-methods/
-                // https://www.techiediaries.com/javascript-queryselectorall-nod
-                // elist-foreach/
                 String resultScript
                         = "return Array.from(document.querySelector("
                         + "'vt-ui-shell div#view-container file-view')"
@@ -517,12 +439,7 @@ public class VT {
                     // Following try-catch needed because of
                     // org.openqa.selenium.StaleElementReferenceException
                     //      Get engine name from engine scan element
-                    // https://stackoverflow.com/questions/19149327/selenium-exc
-                    // eption-in-thread-main-org-openqa-selenium-staleelementref
-                    // erenceex
                     try {
-                        // https://docs.oracle.com/javase/7/docs/api/java/util/regex
-                        // /Pattern.html#sum
                         engine = detectionElements.get(i).getText().split("\n")[0];
                     }
 
