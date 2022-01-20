@@ -39,3 +39,6 @@ Inside the cloned repo, run `./vt -h` for the help menu.
 ### Help menu
 ![image](https://user-images.githubusercontent.com/69565038/150281347-9857c224-c97a-4360-b839-25395e5ff948.png)
 
+### License
+
+Read the [AGPL-3.0 License](https://github.com/BlazerYoo/vt/blob/main/LICENSE)
