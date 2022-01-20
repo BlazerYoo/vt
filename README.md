@@ -35,7 +35,7 @@ Install Java from https://www.oracle.com/java/technologies/downloads/
 ### VT
 Run `git clone https://github.com/BlazerYoo/vt.git` or [download](https://github.com/BlazerYoo/vt/archive/refs/heads/main.zip) repo.
 
-Open `VT.java` and replace `.\\chromedriver_win32\\chromedriver.exe` on line `357` with the address to the downloaded and unzipped ChromeDriver binary.
+Open `VT.java` and replace `.\\chromedriver_win32\\chromedriver.exe` on line `357` with the address to the downloaded, unzipped ChromeDriver binary.
 
 Inside the cloned repo, run `./vt -h` for the help menu.
 
