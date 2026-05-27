@@ -167,12 +167,12 @@ public class VT {
                     || args[i].equalsIgnoreCase(shortFlag)) {
 
                 // An argument follows the flag
-                try {
+                if (i + 1 < args.length) {
                     cla = args[i + 1];
                 }
 
                 // No argument follows the flag
-                catch (ArrayIndexOutOfBoundsException e) {
+                else {
 
                     // Color print error message
                     String message = "\nPlease enter an argument after the "
@@ -300,35 +300,6 @@ public class VT {
     }
 
 
-    //  If specified engine found, removes all <engine, result> pairs that are
-    //  not the <'selectEngine', result> pair from 'rawScanResults' SymbolTable
-    public static void removeEngines(String selectEngine,
-                                     ST<String, String> rawScanResults) {
-
-        // Compile array of engines to remove; '- 1' since all are removed
-        // except the one <'selectEngine', result> pair
-        String[] removeEngines = new String[rawScanResults.size() - 1];
-        int index = 0;
-        for (String engine : rawScanResults.keys()) {
-            if (!engine.equalsIgnoreCase(selectEngine)) {
-                removeEngines[index] = engine;
-                index++;
-            }
-        }
-
-        // Remove <engine, result> pairs for engines in the
-        // above compiled array
-        for (String removeEngine : removeEngines)
-            if (removeEngine != null)
-                rawScanResults.remove(removeEngine);
-
-        // Color print notification
-        String message = MESSAGE_PREFIX + selectEngine + "\" engine was found."
-                + " Scanned with \"" + selectEngine + "\".\n";
-        colorPrint(false, NORMAL_HIGHLIGHT, CYAN, message);
-    }
-
-
     // Main method of this class
     // Runs everything
     public static void main(String[] args) {
@@ -433,48 +404,46 @@ public class VT {
                 // Iterate through list of each engine scan HTML elements
                 for (int i = 0; i < detectionElements.size(); i++) {
 
-                    // Individual engine name
-                    String engine = "";
+                    // Engine name and result, read in a single getText() call
+                    // (getText() is a remote WebDriver call, so avoid repeats)
+                    String[] lines;
 
                     // Following try-catch needed because of
                     // org.openqa.selenium.StaleElementReferenceException
-                    //      Get engine name from engine scan element
                     try {
-                        engine = detectionElements.get(i).getText().split("\n")[0];
+                        lines = detectionElements.get(i).getText().split("\n");
                     }
 
-                    //      Get engine name from engine scan element again
+                    //      Read the engine scan element again
                     catch (StaleElementReferenceException e) {
-                        engine = detectionElements.get(i).getText().split("\n")[0];
-                    }
-
-                    // Individual result from engine scan
-                    String result = "";
-
-                    // Get result from engine scan element
-                    try {
-                        result = detectionElements.get(i).getText().split("\n")[1];
+                        lines = detectionElements.get(i).getText().split("\n");
                     }
 
                     // Continue if no result in engine scan element
-                    catch (ArrayIndexOutOfBoundsException e) {
+                    if (lines.length < 2)
                         continue;
-                    }
+
+                    String engine = lines[0];
+                    String result = lines[1];
 
                     // Put <engine, result> pair into SymbolTable
                     rawScanResults.put(engine, result);
 
-                    // If user entered --engine, -e
-                    if (!selectEngine.isEmpty()) {
+                    // If user entered --engine, -e and this is the chosen
+                    // engine, keep only this scan and stop scanning
+                    if (!selectEngine.isEmpty()
+                            && engine.equalsIgnoreCase(selectEngine)) {
 
-                        // If engine was used
-                        if (engine.equalsIgnoreCase(selectEngine)) {
+                        engineFound = true;
+                        rawScanResults = new ST<String, String>();
+                        rawScanResults.put(engine, result);
 
-                            engineFound = true;
-                            // Remove all engine scans except scan with selectEngine
-                            removeEngines(selectEngine, rawScanResults);
-                            break;
-                        }
+                        // Color print notification
+                        String foundMessage = MESSAGE_PREFIX + selectEngine
+                                + "\" engine was found. Scanned with \""
+                                + selectEngine + "\".\n";
+                        colorPrint(false, NORMAL_HIGHLIGHT, CYAN, foundMessage);
+                        break;
                     }
                 }
 

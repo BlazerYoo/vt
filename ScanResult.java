@@ -78,20 +78,13 @@ public class ScanResult {
     // Print colored coded (truncated or padded) engine name based on 'scanResult'
     private static void colorPrintEngine(ScanResult scanResult) {
 
-        // Engine name
-        String engine = "";
-
-        // Truncate engine name
-        try {
-            engine = scanResult.getEngine().substring(0, MAX_ENGINE_LEN);
-        }
-
-        // Pad engine name with spaces
-        catch (IndexOutOfBoundsException e) {
-            engine = scanResult.getEngine();
-            for (int i = engine.length(); i < MAX_ENGINE_LEN; i++)
-                engine += " ";
-        }
+        // Engine name truncated to MAX_ENGINE_LEN, or right-padded with
+        // spaces to MAX_ENGINE_LEN if shorter
+        String engine = scanResult.getEngine();
+        if (engine.length() > MAX_ENGINE_LEN)
+            engine = engine.substring(0, MAX_ENGINE_LEN);
+        else
+            engine = String.format("%-" + MAX_ENGINE_LEN + "s", engine);
 
         // If result is "Undetected" -> print engine name NORMAL
         if (scanResult.getResult().equalsIgnoreCase(UNDETECTED)) {
